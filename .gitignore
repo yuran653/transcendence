@@ -1,0 +1,39 @@
+# Build products
+*.egg-info/
+build/
+dist/
+env/
+*.pyc
+
+# Virtualenv
+.venv/
+trnsdnce/
+
+# Docker containers
+.dockerignore
+.dockerenv
+
+# OS specific cruft
+ *.DS_Store
+ *.DS_Store*
+ .DS_Store
+
+# IDE and editor specific files
+ .idea/
+ .vscode/
+ Sublime Text Project.sublime-project
+ Sublime Text Workspace.sublime-workspace
+
+# Logs
+*.log
+
+# Drafts
+*.draft
+
+# Testing frameworks
+__pycache__/
+*.py~
+
+# Django configuration
+.django_admin.py
+local_settings.py
