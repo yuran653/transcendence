@@ -1,30 +1,36 @@
-web: 
-backend django    1 
-frontend framework    1/2
-DB  1/2
+# Mandatory modules
+## Web: 
+- Backend Django    1 
+- Frontend framework    1/2
+- PostgreSQL  1/2
 
-gameplay: 
-remote player   1
+## Gameplay: 
+- Remote players   1
 
-user management:
-major   1
+## User management:
+- Standard user management, authentication, users across tournaments  1
 
-ai logic
-major   1
+## DevOps:
+- ElasticSearch   1
 
-security:
-major   1
-major   1  (optional)
+## Security:
+- Implement Two-Factor Authentication (2FA) and JWT   1
 
-devops:
-major    1
+## Accessibility:
+- Support on all devices  1/2
+- Expanding Browser Compatibility  1/2
 
-graphics:
-three js/ alternative    1 (optional)
+# Optional
+## Security:
+- Implement WAF/ModSecurity with Hardened Configuration and
+HashiCorp Vault for Secrets Managemen   1
 
-acessibility:
-minor:
-- Support on all devices
-- Expanding Browser Compatibility
-- Multiple language supports
-- Server-Side Rendering (SSR) Integration.
+## AI logic
+- major   1
+
+## Graphics:
+- three js/ alternative    1 
+
+## Accessibility:
+- Multiple language supports  1/2
+- Server-Side Rendering (SSR) Integration 1/2
