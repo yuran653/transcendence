@@ -14,6 +14,12 @@ create_directory() {
 
 create_directory "$ssl_dir"
 create_directory "$postgres_dir"
+create_directory "$es_cert_dir"
+create_directory "$es_data01"
+create_directory "$es_kibana"
+create_directory "$es_metricbeat"
+create_directory "$es_filebeat"
+create_directory "$es_logstash"
 
 if [ ! -f "$ssl_dir/$crt_name" ] || [ ! -f "$ssl_dir/$key_name" ]; then
     openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
