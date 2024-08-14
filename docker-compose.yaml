@@ -2,45 +2,13 @@ version: '3.8'
 
 volumes:
   db_volume:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${postgres_dir}
   # es_certs:
-  #   driver_opts:
-  #     o: bind
-  #     type: none
-  #     device: ${es_cert_dir}
   es_data01:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${es_data01}
   es_kibana:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${es_kibana}
   es_ingest_data:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${es_ingest_data}
   es_logstash:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${es_logstash}
   es_filebeat:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${es_filebeat}
   es_metricbeat:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${es_metricbeat}
 
 # secrets:
 #   nginx_crt:
@@ -193,7 +161,8 @@ services:
       #   condition: service_healthy
       backend:
         condition: service_healthy
-    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    # image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    image: elasticsearch:8.14.3
     labels:
       co.elastic.logs/module: elasticsearch
     volumes:
@@ -221,10 +190,20 @@ services:
       - xpack.license.self_generated.type=${LICENSE}
       - "ES_JAVA_OPTS=-Xmx512m -Xms512m"
     mem_limit: ${ES_MEM_LIMIT}
+    # ulimits:
+    #   memlock:
+    #     soft: -1
+    #     hard: -1
     ulimits:
       memlock:
-        soft: -1
-        hard: -1
+        soft: 2028284  # Set to the maximum '-l: locked-in-memory size (kbytes)' allowed by the system 
+        hard: 2028284
+      nofile:
+        soft: 1048576  # Set to the maximum number of '-n: file descriptors' allowed by the system <bash$ ulimit -a>
+        hard: 1048576
+      nproc:
+        soft: 63082  # Set to the maximum number of '-u: processes' allowed by the system <bash$ ulimit -a>
+        hard: 63082
     networks:
       - transcendence
     healthcheck:
@@ -311,30 +290,30 @@ services:
       retries: 120
 
 
-  # filebeat:
-  #   depends_on:
-  #     # es01:
-  #     #   condition: service_healthy
-  #     logstash:
-  #       condition: service_healthy
-  #   image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
-  #   user: root
-  #   volumes:
-  #     # - es_certs:/usr/share/filebeat/certs
-  #     - es_filebeat:/usr/share/filebeat/data
-  #     - es_ingest_data:/usr/share/filebeat/ingest_data
-  #     - "./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
-  #     - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
-  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
-  #   environment:
-  #     - ELASTIC_USER=elastic
-  #     - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-  #     # - ELASTIC_HOSTS=https://es01:9200
-  #     - ELASTIC_HOSTS=http://es01:9200
-  #     - KIBANA_HOSTS=http://kibana:5601
-  #     - LOGSTASH_HOSTS=http://logstash:9600
-  #   networks:
-  #     - transcendence
+  filebeat:
+    depends_on:
+      # es01:
+      #   condition: service_healthy
+      logstash:
+        condition: service_healthy
+    image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
+    user: root
+    volumes:
+      # - es_certs:/usr/share/filebeat/certs
+      - es_filebeat:/usr/share/filebeat/data
+      - es_ingest_data:/usr/share/filebeat/ingest_data
+      - "./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      # - ELASTIC_HOSTS=https://es01:9200
+      - ELASTIC_HOSTS=http://es01:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=http://logstash:9600
+    networks:
+      - transcendence
 
 
   metricbeat:
