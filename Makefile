@@ -35,7 +35,6 @@ re: down all
 clean:
 	@echo $(YELLOW) "\n\tCleaning up transcendence objects...\n" ${END}
 	@docker-compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down --volumes --remove-orphans
-	@docker images --format "{{.Repository}}:{{.Tag}}" | grep ${IMAGE_TAG} | xargs -r docker rmi
 	@bash tools/delete_dir.sh
 	@echo $(GREEN) "\n\tCleaning up transcendence: done\n" ${END}
 

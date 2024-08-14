@@ -12,23 +12,24 @@ create_directory() {
     fi
 }
 
-create_directory "$ssl_dir"
+# create_directory "$ssl_dir"
 create_directory "$postgres_dir"
-create_directory "$es_cert_dir"
+# create_directory "$es_cert_dir"
 create_directory "$es_data01"
 create_directory "$es_kibana"
-create_directory "$es_metricbeat"
-create_directory "$es_filebeat"
+create_directory "$es_ingest_data"
 create_directory "$es_logstash"
+create_directory "$es_filebeat"
+create_directory "$es_metricbeat"
 
-if [ ! -f "$ssl_dir/$crt_name" ] || [ ! -f "$ssl_dir/$key_name" ]; then
-    openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-      -out "$ssl_dir/$crt_name" \
-      -keyout "$ssl_dir/$key_name" \
-      -subj "/C=TH/ST=Bangkok/L=Bangkok/O=42Bangkok/OU=jgoldste/CN=42Bangkok.com"
-    if [ ! -f "$ssl_dir/$crt_name" ] || [ ! -f "$ssl_dir/$key_name" ]; then
-      echo "Error: Failed to create SSL certificate or key"
-      exit 1
-    fi
-    echo "SSL certificate and key created successfully"
-fi
+# if [ ! -f "$ssl_dir/$crt_name" ] || [ ! -f "$ssl_dir/$key_name" ]; then
+#     openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+#       -out "$ssl_dir/$crt_name" \
+#       -keyout "$ssl_dir/$key_name" \
+#       -subj "/C=TH/ST=Bangkok/L=Bangkok/O=42Bangkok/OU=jgoldste/CN=42Bangkok.com"
+#     if [ ! -f "$ssl_dir/$crt_name" ] || [ ! -f "$ssl_dir/$key_name" ]; then
+#       echo "Error: Failed to create SSL certificate or key"
+#       exit 1
+#     fi
+#     echo "SSL certificate and key created successfully"
+# fi
