@@ -303,7 +303,7 @@ services:
       - es_filebeat:/usr/share/filebeat/data
       - es_ingest_data:/usr/share/filebeat/ingest_data
       - "./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
-      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      # - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     environment:
       - ELASTIC_USER=elastic
